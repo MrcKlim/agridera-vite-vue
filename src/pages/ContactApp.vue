@@ -2,6 +2,7 @@
 import SiteHeader from '../components/SiteHeader.vue'
 import SiteFooter from '../components/SiteFooter.vue'
 import { useShop } from '../composables/useShop'
+import { publicAsset } from '../utils/publicAsset'
 
 const {
   cart,
@@ -17,13 +18,13 @@ const {
     <SiteHeader :white="true" />
 
     <div class="contact-banner">
-      <img src="/images/image 7.jpg" alt="Contact Banner">
+      <img :src="publicAsset('images/image 7.jpg')" alt="Contact Banner">
     </div>
 
     <section class="contact-section py-5">
       <div class="container">
         <h2 class="contact-title">Contact us</h2>
-        <img src="/images/Union.svg" alt="Crosses" class="crosses-img">
+        <img :src="publicAsset('images/Union.svg')" alt="Crosses" class="crosses-img">
 
         <div v-if="cart.length" class="cart-table-wrap mb-4">
           <table class="table table-bordered cart-table mb-0">
@@ -37,7 +38,7 @@ const {
             </thead>
             <tbody>
               <tr v-for="item in cart" :key="item.id">
-                <td><img :src="'/img/' + item.image" :alt="item.title" class="cart-mini-image"></td>
+                <td><img :src="publicAsset('img/' + item.image)" :alt="item.title" class="cart-mini-image"></td>
                 <td>{{ item.title }}</td>
                 <td>{{ item.short_text }}</td>
                 <td>
@@ -119,7 +120,7 @@ const {
               <div class="form-group">
                 <label class="contact-label">Please type this code</label>
                 <div class="d-flex align-items-center" style="gap: 8px;">
-                  <img src="/images/image 12.png" alt="Captcha code" class="captcha-img">
+                  <img :src="publicAsset('images/image 12.png')" alt="Captcha code" class="captcha-img">
                   <input v-model="contactFields.code" type="text" class="contact-input captcha-input" style="flex: 0 0 110px;">
                   <button type="submit" class="btn send-btn">Send Message</button>
                 </div>
@@ -138,6 +139,6 @@ const {
         Telephone: <a href="tel:+97289449222" class="address-phone">+972 8 944 9222</a></p>
     </div>
 
-    <SiteFooter products-href="tomato.html" />
+    <SiteFooter products-href="/tomato" />
   </div>
 </template>

@@ -1,6 +1,9 @@
 <script setup>
+import { publicAsset } from '../utils/publicAsset'
+
 defineProps({
-  productsHref: { type: String, default: '#' },
+  // Змінили дефолтне значення з '#' на '/tomato'
+  productsHref: { type: String, default: '/tomato' },
 })
 </script>
 
@@ -11,21 +14,21 @@ defineProps({
         <div class="row text-center text-md-left align-items-center">
           <div class="col-md-8 mb-3 mb-md-0">
             <nav class="footer-nav">
-              <a href="#">PROFILE</a>
-              <a href="#">MANAGEMENT</a>
-              <a :href="productsHref">PRODUCTS</a>
-              <a href="#">R&amp;D</a>
-              <a href="#">LINKS</a>
-              <a href="#">SITEMAP</a>
-              <a href="contact.html">CONTACT</a>
+              <a href="#" @click.prevent>PROFILE</a>
+              <a href="#" @click.prevent>MANAGEMENT</a>
+              <router-link :to="productsHref">PRODUCTS</router-link>
+              <a href="#" @click.prevent>R&amp;D</a>
+              <a href="#" @click.prevent>LINKS</a>
+              <a href="#" @click.prevent>SITEMAP</a>
+              <router-link to="/contact">CONTACT</router-link>
             </nav>
           </div>
           <div class="col-md-4 text-center text-md-right social-icons">
-            <a href="#"><img src="/images/Ico_in.png" alt="LinkedIn"></a>
-            <a href="#"><img src="/images/Ico_inst.png" alt="Instagram"></a>
-            <a href="#"><img src="/images/Ico_tube.png" alt="YouTube"></a>
-            <a href="#"><img src="/images/Ico_tw.png" alt="Twitter"></a>
-            <a href="#"><img src="/images/Ico_fb.png" alt="Facebook"></a>
+            <a href="#" @click.prevent><img :src="publicAsset('images/Ico_in.png')" alt="LinkedIn"></a>
+            <a href="#" @click.prevent><img :src="publicAsset('images/Ico_inst.png')" alt="Instagram"></a>
+            <a href="#" @click.prevent><img :src="publicAsset('images/Ico_tube.png')" alt="YouTube"></a>
+            <a href="#" @click.prevent><img :src="publicAsset('images/Ico_tw.png')" alt="Twitter"></a>
+            <a href="#" @click.prevent><img :src="publicAsset('images/Ico_fb.png')" alt="Facebook"></a>
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@
 import SiteHeader from '../components/SiteHeader.vue'
 import SiteFooter from '../components/SiteFooter.vue'
 import { useShop } from '../composables/useShop'
+import { publicAsset } from '../utils/publicAsset'
 
 const { product, btnVisible, addToCart } = useShop({ loadProduct: true })
 </script>
@@ -12,17 +13,22 @@ const { product, btnVisible, addToCart } = useShop({ loadProduct: true })
 
     <main class="product-details-main py-4">
       <div class="container position-relative">
-        <a href="tomato.html" class="back-link mb-3 d-inline-block">&larr; Return to all products</a>
+        <router-link to="/tomato" class="back-link mb-3 d-inline-block">&larr; Return to all products</router-link>
 
         <div class="row">
           <div class="col-md-6 pr-md-5 d-md-flex flex-md-column">
             <h1 class="product-title-large">{{ product.title }}</h1>
             <h2 class="product-subtitle-large">{{ product.short_text }}</h2>
 
-            <img src="/images/Union.svg" alt="Crosses" class="crosses-img mt-3 mb-4">
+            <img :src="publicAsset('images/Union.svg')" alt="Crosses" class="crosses-img mt-3 mb-4">
 
             <div class="highlight-red-box d-flex align-items-center mb-5">
-              <img src="/images/Group 17.png" alt="High yield icon" class="mr-3" style="width: 50px; height: auto;">
+              <img
+                :src="publicAsset('images/Group 17.png')"
+                alt="High yield icon"
+                class="mr-3"
+                style="width: 50px; height: auto;"
+              >
               <span class="highlight-red-text">Very high yield and<br>excellent fruits quality!</span>
             </div>
 
@@ -52,7 +58,7 @@ const { product, btnVisible, addToCart } = useShop({ loadProduct: true })
           </div>
 
           <div class="col-md-6 d-md-flex flex-md-column">
-            <img :src="'/img/' + product.image" :alt="product.title" class="img-fluid main-product-image mb-0">
+            <img :src="publicAsset('img/' + product.image)" :alt="product.title" class="img-fluid main-product-image mb-0">
 
             <div class="d-flex justify-content-end mb-4 mt-3">
               <a
@@ -64,14 +70,14 @@ const { product, btnVisible, addToCart } = useShop({ loadProduct: true })
                 Add to cart
               </a>
 
-              <a
-                href="contact.html"
+              <router-link
+                to="/contact"
                 class="btn btn-download-pdf d-flex align-items-center"
                 v-if="btnVisible === 1"
                 style="background-color: #3b5046; color: white;"
               >
                 Go to cart
-              </a>
+              </router-link>
             </div>
 
             <div class="mt-md-auto">
@@ -93,6 +99,6 @@ const { product, btnVisible, addToCart } = useShop({ loadProduct: true })
       </div>
     </main>
 
-    <SiteFooter products-href="#" />
+    <SiteFooter products-href="/tomato" />
   </div>
 </template>

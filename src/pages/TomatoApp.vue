@@ -2,6 +2,7 @@
 import SiteHeader from '../components/SiteHeader.vue'
 import SiteFooter from '../components/SiteFooter.vue'
 import { useShop } from '../composables/useShop'
+import { publicAsset } from '../utils/publicAsset'
 
 const { products } = useShop({})
 </script>
@@ -11,13 +12,13 @@ const { products } = useShop({})
     <SiteHeader :white="true" />
 
     <div class="tomato-banner">
-      <img src="/img/cabbage-banner.jpg" alt="Cabbages Banner">
+      <img :src="publicAsset('img/cabbage-banner.jpg')" alt="Cabbages Banner">
     </div>
 
     <main class="py-5">
       <div class="container">
         <h1 class="page-title text-center text-md-left">Agridera Fresh Market Cabbages</h1>
-        <img src="/images/Union.svg" alt="Crosses" class="crosses-img mb-4 mx-auto mx-md-0">
+        <img :src="publicAsset('images/Union.svg')" alt="Crosses" class="crosses-img mb-4 mx-auto mx-md-0">
 
         <p class="desc-text">Agridera aims to be one of the world's leading companies in the breeding, production, and marketing of tomato seeds. <b>We invest intensively in research and development to provide solutions to growers and consumers in numerous countries around the world.</b> In particular, we breed improved, disease-resistant cultivars adapted to different markets globally.</p>
 
@@ -68,13 +69,13 @@ const { products } = useShop({})
             class="col-md-4 col-sm-6 mb-4"
           >
             <div class="product-card text-center">
-              <a :href="'tomato-one.html#' + p.id">
-                <img :src="'/img/' + p.image" alt="Cabbage">
-              </a>
+              <router-link :to="`/tomato-one/${p.id}`">
+                <img :src="publicAsset('img/' + p.image)" alt="Cabbage">
+              </router-link>
               <div class="product-info">
-                <a :href="'tomato-one.html#' + p.id" style="text-decoration: none;">
+                <router-link :to="`/tomato-one/${p.id}`" style="text-decoration: none;">
                   <h4 class="product-title">{{ p.title }}</h4>
-                </a>
+                </router-link>
                 <p class="product-desc">{{ p.short_text }}</p>
               </div>
             </div>
@@ -83,6 +84,6 @@ const { products } = useShop({})
       </div>
     </section>
 
-    <SiteFooter products-href="#" />
+<SiteFooter products-href="/tomato" />
   </div>
 </template>

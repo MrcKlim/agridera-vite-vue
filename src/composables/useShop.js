@@ -1,8 +1,10 @@
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { products } from '../data/products'
 
 export function useShop(options = {}) {
   const { loadProduct = false, loadCart = false } = options
+  const route = useRoute()
 
   const product = ref({})
   const cart = ref([])
@@ -11,11 +13,24 @@ export function useShop(options = {}) {
   const orderData = ref(null)
 
   function getProduct() {
-    if (window.location.hash) {
-      const id = window.location.hash.replace('#', '')
-      const found = products.find((p) => String(p.id) === String(id))
-      if (found) product.value = found
+    let id = route.params.id
+
+    if (id == null || id === '') {
+      const hash = window.location.hash || ''
+      const parts = hash.split('#').filter(Boolean)
+      if (parts.length >= 2) {
+        const last = parts[parts.length - 1]
+        if (/^\d+$/.test(last)) id = last
+      }
     }
+
+    if (id == null || id === '') {
+      product.value = {}
+      return
+    }
+
+    const found = products.find((p) => String(p.id) === String(id))
+    product.value = found ? { ...found } : {}
   }
 
   function getCart() {
@@ -30,6 +45,7 @@ export function useShop(options = {}) {
   }
 
   function addToCart(id) {
+    if (id == null || id === '') return
     let cartIds = []
     if (window.localStorage.getItem('cart')) {
       cartIds = window.localStorage.getItem('cart').split(',')
@@ -56,12 +72,17 @@ export function useShop(options = {}) {
   }
 
   function checkInCart() {
-    if (product.value && product.value.id && window.localStorage.getItem('cart')) {
-      const cartIds = window.localStorage.getItem('cart').split(',')
-      if (cartIds.indexOf(String(product.value.id)) !== -1) {
-        btnVisible.value = 1
-      }
+    if (!product.value?.id) {
+      btnVisible.value = 0
+      return
     }
+    const raw = window.localStorage.getItem('cart')
+    if (!raw) {
+      btnVisible.value = 0
+      return
+    }
+    const cartIds = raw.split(',')
+    btnVisible.value = cartIds.indexOf(String(product.value.id)) !== -1 ? 1 : 0
   }
 
   function makeOrder() {
@@ -82,11 +103,17 @@ export function useShop(options = {}) {
     window.localStorage.removeItem('cart')
   }
 
-  onMounted(() => {
-    if (loadProduct) {
+  watch(
+    () => route.params.id,
+    () => {
+      if (!loadProduct) return
       getProduct()
       checkInCart()
-    }
+    },
+    { immediate: true }
+  )
+
+  onMounted(() => {
     if (loadCart) {
       getCart()
     }
